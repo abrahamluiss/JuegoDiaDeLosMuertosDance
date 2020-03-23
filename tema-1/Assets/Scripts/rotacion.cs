@@ -4,10 +4,14 @@ using UnityEngine;
 
 public class rotacion : MonoBehaviour
 {
+    private void Awake()
+    {
+        Debug.LogError(">> He q pasa");
+    }
     // Start is called before the first frame update
     void Start()
     {
-        
+        Debug.LogError(">> He q pasa 3");
     }
 
     // Update is called once per frame
