@@ -14,6 +14,14 @@ public class MainMenu : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        IrAlJuego();
+        //if (Input.anyKeyDown) //si se pulsa cualquier tecla
+        //{
+        //    SceneManager.LoadScene("MainGame");
+        //}
+    }
+    public void IrAlJuego()
+    {
         if (Input.anyKeyDown) //si se pulsa cualquier tecla
         {
             SceneManager.LoadScene("MainGame");
