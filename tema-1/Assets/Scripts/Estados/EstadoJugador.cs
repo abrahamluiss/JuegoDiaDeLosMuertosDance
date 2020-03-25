@@ -29,6 +29,7 @@ public class EstadoJugador : InstanciEstadoBase<EstadoJugador>
                     game.SumaPuntuacion(100);
                     if (game.HaTerminado())
                     {
+                        game.TocarSonido(MainGame.Efectos.Bien1, MainGame.Efectos.Bien2);
                         game.AddNewStep();
                         EstadoBase.Cambiar(EstadoFinJugador.Intancia);
                     }

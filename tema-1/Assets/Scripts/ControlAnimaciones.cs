@@ -18,15 +18,7 @@ public class ControlAnimaciones : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1))//si se pulsa una tecla
-        {
-            m_Animator.SetInteger("Direccion",1);
-            m_miOrigen.PlayOneShot(m_sonido1);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha0))
-        {
-            m_Animator.SetInteger("Direccion", 2);
-        }        
+      
         if (Input.touchCount > 0)
         {
             if(Input.touches[0].phase == TouchPhase.Began)

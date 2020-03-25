@@ -12,7 +12,7 @@ public class EstadoFinJugador : InstanciEstadoBase<EstadoFinJugador>
     public override void Update(MainGame game)
     {
         m_reloj += Time.deltaTime;//sumar al tiempor transcurrido entre frame y frame
-        if(m_reloj > m_duracion)//si es mayor
+        if(m_reloj > m_duracion)
         {
             EstadoBase.Cambiar(EstadoIrProfesor.Intancia);
             

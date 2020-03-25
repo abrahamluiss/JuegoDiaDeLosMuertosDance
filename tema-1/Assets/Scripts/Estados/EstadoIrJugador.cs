@@ -23,7 +23,7 @@ public class EstadoIrJugador : InstanciEstadoBase<EstadoIrJugador>
         {
             m_currentTarget = Vector3.Lerp(m_currentTarget,
                 game.m_jugador.transform.position, m_reloj / m_duracion);
-            game.m_camaraPrincipal.transform.LookAt(m_currentTarget);//que mire a la posicion actual
+            game.m_camaraPrincipal.transform.LookAt(m_currentTarget + Vector3.up);//que mire a la posicion actual
         }
     }
 }

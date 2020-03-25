@@ -24,7 +24,7 @@ public class EstadoIrProfesor : InstanciEstadoBase<EstadoIrProfesor>
         {
             m_currentTarget = Vector3.Lerp(m_currentTarget,
                 game.m_maestro.transform.position, m_reloj / m_duracion);
-            game.m_camaraPrincipal.transform.LookAt(m_currentTarget);//que mire a la posicion actual
+            game.m_camaraPrincipal.transform.LookAt(m_currentTarget + Vector3.up);//que mire a la posicion actual
         }
     }
 }

@@ -12,7 +12,6 @@ public class MainGame : MonoBehaviour
     int m_nVidas;
     public Text m_Puntuacion;
     int m_MisPuntos;
-    public GameObject m_Vamos;
     public GameObject m_InGame;
     public GameObject m_GameOver;
     public GameObject m_Flecha;
@@ -22,6 +21,8 @@ public class MainGame : MonoBehaviour
     public GameObject m_jugador;
     public Animator m_animadorMaestro;
     public Animator m_animadorJugador;
+    public AudioSource m_miFuenteDeSonido;
+    public Image m_Empezar; //m_vamos remplazo por empezar
     public enum TipoPaso { None, Right, Up, Left, Down};
     //para la flecha
     static Quaternion[] PasoBase = new Quaternion[] { 
@@ -32,7 +33,7 @@ public class MainGame : MonoBehaviour
         Quaternion.Euler(0,0,270f),
 
     };
-
+    public AudioClip[] EfectosPaso;
     List<TipoPaso> m_Pasos = new List<TipoPaso>();
     List<TipoPaso>.Enumerator m_PasoActual;
     // Start is called before the first frame update
@@ -51,7 +52,7 @@ public class MainGame : MonoBehaviour
 
     void ReiniciarJuego()
     {
-        m_Vamos.SetActive(false);
+        m_Empezar.enabled=false;
         m_nVidas = 3;
         m_MisPuntos = 0;
         ActualizarVidas();
@@ -96,8 +97,8 @@ public class MainGame : MonoBehaviour
             m_Flecha.SetActive(true);
             int paso = (int)m_PasoActual.Current;
             animator.SetInteger("Direccion", paso);
-            //TODO:sonido
-
+            //sonido
+            m_miFuenteDeSonido.PlayOneShot(EfectosPaso[paso - 1]);
             m_Flecha.transform.rotation = PasoBase[paso];
             return true;
         }
@@ -111,8 +112,8 @@ public class MainGame : MonoBehaviour
             m_Flecha.SetActive(true);
             int paso = (int)_paso;
             animator.SetInteger("Direccion", paso);
-            //TODO:sonido
-
+            //sonido
+            m_miFuenteDeSonido.PlayOneShot(EfectosPaso[paso - 1]);//si le damos a las teclas sonara
             m_Flecha.transform.rotation = PasoBase[paso];
             if(m_PasoActual.Current == _paso)//comprobar q el paso actual sea igual al paso q se lepaso
             {
@@ -138,15 +139,36 @@ public class MainGame : MonoBehaviour
     void Update()
     {
         EstadoBase.ActualizarEstadoActual();
+        ActualizaEmprezar();
         //if (Input.GetMouseButtonDown(0))
         //   GameObject.Destroy(m_miChica);
     }
+    float m_timerEmpezar;
     public void MuestraEmpezar()
     {
-        m_Vamos.SetActive(true);
+        TocarSonido(MainGame.Efectos.Empezar1, MainGame.Efectos.Empezar2);//refiriendo al enumerado
+        m_Empezar.enabled = true;
+        m_Empezar.color = Color.white;
+        m_timerEmpezar = 2.0f;//en sgnd tiempo q hara la transicion
+    }
+    public void ActualizaEmprezar()
+    {
+        if (m_Empezar.enabled)
+        {
+            m_timerEmpezar -= Time.deltaTime * 2.0f;
+            if(m_timerEmpezar < 0)
+            {
+                m_timerEmpezar = 0;
+                m_Empezar.enabled = false;
+                Color tmp = m_Empezar.color;
+                tmp.a = m_timerEmpezar;
+                m_Empezar.color = tmp;
+            }
+        }
     }
     public void MalPaso()
     {
+        TocarSonido(MainGame.Efectos.Mal1, MainGame.Efectos.Mal2);
         m_Fall.SetActive(true);
         m_animadorJugador.SetInteger("Direccion", 5);
         m_animadorJugador.Update(0);
@@ -167,5 +189,15 @@ public class MainGame : MonoBehaviour
     {
         m_InGame.SetActive(false);
         m_GameOver.SetActive(true);
+    }
+    public enum Efectos//que efectos estarane n mi arry
+    {
+        Empezar1, Empezar2, Bien1, Bien2, Bien3, Mal1, Mal2, Ganar, Perder
+    };
+    public AudioClip[] EfectosSonido;
+    public void TocarSonido(params Efectos[] efectos)
+    {
+        int indice = UnityEngine.Random.Range(0, efectos.Length);
+        m_miFuenteDeSonido.PlayOneShot(EfectosSonido[(int) efectos[indice]]);//indexa 
     }
 }
